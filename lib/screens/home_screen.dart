@@ -39,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text('Add Your Tasks!'),
           centerTitle: true,
@@ -124,12 +125,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   label: const Text('Add Task'),
                   style: ElevatedButton.styleFrom(elevation: 10),
                 ),
-                if (_dateController.text != '' || _taskController.text != '')
+                if (_dateController.text.isNotEmpty || _taskController.text.isNotEmpty)
                   ListTile(
                     title: Text('date: ${_dateController.text}'),
                     subtitle: Text('task: ${_taskController.text}'),
                   ),
-
                 BlocBuilder<TaskBloc, TaskState>(
                   builder: (context, state) {
                       if (state is TasksLoaded) {
