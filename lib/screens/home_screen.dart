@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_app_task/blocs/task_bloc.dart';
 import 'package:to_do_app_task/models/task_model.dart';
+import 'package:to_do_app_task/widgets/task_section_widget.dart';
 import 'package:uuid/uuid.dart';
 import '../widgets/task_widget.dart';
+import 'package:intl/intl.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -137,7 +139,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: state.tasks.isNotEmpty ? ListView.builder(
                             itemCount: state.tasks.length,
                             itemBuilder: (ctx, ind) {
-                              return TaskCard(task: state.tasks[ind],);
+                              if (ind == 0) {
+                                return TaskSection(task: state.tasks[ind]);
+                              }
+                              else if (ind > 0 && DateFormat('d/M/y').parse(state.tasks[ind].date) == DateFormat('d/M/y').parse(state.tasks[ind - 1].date)) {
+                                return TaskCard(task: state.tasks[ind],);
+                              } else {
+                                 return TaskSection(task: state.tasks[ind]);
+                              }
+                              //return TaskCard(task: state.tasks[ind],);
                             }) : const Center(child: Text('No tasks added yet!'),),
                       );
                     } else {
